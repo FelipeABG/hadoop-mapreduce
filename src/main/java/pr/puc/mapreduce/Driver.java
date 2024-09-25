@@ -19,8 +19,8 @@ public class Driver extends Configured implements Tool {
   public int run(String args[]) throws Exception {
 
     int reducers = 1;
-    Path input = new Path("");
-    Path output = new Path("");
+    Path input = new Path("~/code/java/mapreduce/input.txt");
+    Path output = new Path("~/code/java/mapreduce/output/");
 
     Configuration cfg = this.getConf();
 
