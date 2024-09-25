@@ -15,12 +15,18 @@ import org.apache.hadoop.util.ToolRunner;
 
 public class Driver extends Configured implements Tool {
 
+  public static void main(String[] args) throws Exception {
+    int res = ToolRunner.run(new Configuration(), new Driver(), args);
+
+    System.exit(res);
+  }
+
   @Override
   public int run(String args[]) throws Exception {
 
     int reducers = 1;
-    Path input = new Path("~/code/java/mapreduce/input.txt");
-    Path output = new Path("~/code/java/mapreduce/output/");
+    Path input = new Path("input.txt");
+    Path output = new Path("output/");
 
     Configuration cfg = this.getConf();
 
@@ -53,9 +59,4 @@ public class Driver extends Configured implements Tool {
 
   }
 
-  public static void main(String[] args) throws Exception {
-    int res = ToolRunner.run(new Configuration(), new Driver(), args);
-
-    System.exit(res);
-  }
 }
