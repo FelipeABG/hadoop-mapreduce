@@ -30,17 +30,9 @@ Each file under the *src* folder represents the whole job, including both the *m
 
 ## Hadoop Jobs
 
-### 1. Victories Per Team
+### 1. Victories Per Team -> Winner.java
 This job counts the total victories achieved by each team in the championship.
 
-- **Input**: The match results from the dataset.
-- **Output**: A list of teams and their corresponding victory counts.
-
-### 2. Victories Per State
-This job aggregates victories based on the state of the winning team.
-
-- **Input**: The match results from the dataset.
-- **Output**: A list of states and their corresponding victory counts.
 
 
 
