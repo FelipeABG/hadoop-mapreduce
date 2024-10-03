@@ -1,7 +1,0 @@
-Hadoop is an open-source framework
-Hadoop helps in distributed storage and processing
-The word count program is a common example
-Hadoop is widely used for big data processing
-Word count in Hadoop is efficient
-Distributed processing is powerful with Hadoop
-
