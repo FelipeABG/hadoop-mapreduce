@@ -36,3 +36,6 @@ This job counts the total victories achieved by each team in the period.
 ### 2. Avarage goals scored at a match (AvarageGoals.java)
 This job calculates the avarage goals scored at a match in the period.
 
+### 3. Games Per Stadium(GamesPerStadium.java)
+This job counts the total games played on all stadiums in the period.
+
