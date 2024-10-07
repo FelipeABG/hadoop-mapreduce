@@ -26,7 +26,7 @@ The dataset used for this project includes the following columns:
 - **Winning State**: The state of the winning team
 
 ## Project Structure
-Each file under the *src* folder represents the whole job, including both the *mapper* and *reducer* class, as well as the *driver* class.
+The folders *basic*, *medium* and *advanced* under the *src* contains the jobs organized by their complexity. The files represents the whole job, including both the *mapper* and *reducer* class, as well as the *driver* class.
 
 ## Hadoop Jobs
 

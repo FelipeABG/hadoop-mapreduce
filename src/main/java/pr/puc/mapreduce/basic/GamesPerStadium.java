@@ -19,6 +19,7 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
+// The goal of this job is to determine the amount of games played on each stadium
 public class GamesPerStadium extends Configured implements Tool {
 
   public static void main(String[] args) throws Exception {
