@@ -31,5 +31,8 @@ Each file under the *src* folder represents the whole job, including both the *m
 ## Hadoop Jobs
 
 ### 1. Victories Per Team (WinsPerTeam.java)
-This job counts the total victories achieved by each team in the championship.
+This job counts the total victories achieved by each team in the period.
+
+### 2. Avarage goals scored at a match (AvarageGoals.java)
+This job calculates the avarage goals scored at a match in the period.
 
