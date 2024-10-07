@@ -30,6 +30,6 @@ Each file under the *src* folder represents the whole job, including both the *m
 
 ## Hadoop Jobs
 
-### 1. Victories Per Team (Winner.java)
+### 1. Victories Per Team (WinsPerTeam.java)
 This job counts the total victories achieved by each team in the championship.
 
