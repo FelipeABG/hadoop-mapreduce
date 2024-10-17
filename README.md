@@ -74,6 +74,6 @@ mvn package
 mvn exec:java -Dexec.mainClass=pr.puc.mapreduce.<complexity>.<JobClassName> -Dexec.classpathScope=compile
 ```
 
-Replace <complexity> with basic, medium, or advanced depending on the job's location, and <JobClassName> with the appropriate class name, such as WinsPerTeam, AverageGoals, GamesPerStadium, and so on.
+Replace _complexity_ with basic, medium, or advanced depending on the job's location, and _JobClassName_ with the appropriate class name, such as WinsPerTeam, AverageGoals, GamesPerStadium, and so on.
 
-After the execution, a folder called _path_ will be available. Inside it you will find the result of the job.
+After the execution, a folder called _output_ will be available. Inside it you will find the result of the job.
