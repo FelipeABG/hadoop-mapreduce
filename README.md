@@ -26,18 +26,27 @@ The dataset used for this project includes the following columns:
 - **Winning State**: The state of the winning team
 
 ## Project Structure
-The folders *basic*, *medium* and *advanced* under the *src* contains the jobs organized by their complexity. The files represents the whole job, including both the *mapper* and *reducer* class, as well as the *driver* class.
+
+The folders _basic_, _medium_ and _advanced_ under the _src_ contains the jobs organized by their complexity. The files represents the whole job, including both the _mapper_ and _reducer_ class, as well as the _driver_ class.
 
 ## Hadoop Jobs
 
 ### 1. Victories Per Team (WinsPerTeam.java)
+
 This job counts the total victories achieved by each team in the period.
 
-### 2. Avarage goals scored at a match (AvarageGoals.java)
-This job calculates the avarage goals scored at a match in the period.
+### 2. Average goals scored per a match (AvarageGoals.java)
+
+This job calculates the avarage goals scored per a match in the period.
 
 ### 3. Games Per Stadium (GamesPerStadium.java)
+
 This job counts the total games played on all stadiums in the period.
 
 ### 4. Home and visitor Team Victories (HomeVisitorWins.java)
+
 This job counts the total victories to home and visitor teams in the period.
+
+### 5. Average Goals per Stadium (AverageGoalsPerArena.java)
+
+this job counts the avarage goals scored at each stadium in the period
