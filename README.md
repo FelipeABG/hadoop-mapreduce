@@ -50,3 +50,30 @@ This job counts the total victories to home and visitor teams in the period.
 ### 5. Average Goals per Stadium (AverageGoalsPerArena.java)
 
 this job counts the avarage goals scored at each stadium in the period
+
+## Execution
+
+To execute the jobs follow the steps:
+
+1. **Clone the repository:**:
+
+```bash
+git clone https://github.com/FelipeABG/hadoop-mapreduce.git
+cd hadoop-mapreduce
+```
+
+2. **Build the project using maven (make sure it is installed)**:
+
+```bash
+mvn package
+```
+
+3. **Execute the desired job using maven**:
+
+```bash
+mvn exec:java -Dexec.mainClass=pr.puc.mapreduce.<complexity>.<JobClassName> -Dexec.classpathScope=compile
+```
+
+Replace <complexity> with basic, medium, or advanced depending on the job's location, and <JobClassName> with the appropriate class name, such as WinsPerTeam, AverageGoals, GamesPerStadium, and so on.
+
+After the execution, a folder called _path_ will be available. Inside it you will find the result of the job.
