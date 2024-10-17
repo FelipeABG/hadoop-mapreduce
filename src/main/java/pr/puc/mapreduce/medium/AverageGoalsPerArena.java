@@ -44,8 +44,9 @@ public class AverageGoalsPerArena extends Configured implements Tool {
     job.setOutputFormatClass(TextOutputFormat.class);
 
     job.setJarByClass(AverageGoalsPerArena.class);
-    job.setMapperClass(AvarageGoalsPerArenaMapper.class);
-    job.setReducerClass(AvarageGoalsPerArenaReducer.class);
+    job.setMapperClass(AverageGoalsPerArenaMapper.class);
+    job.setReducerClass(AverageGoalsPerArenaReducer.class);
+    job.setCombinerClass(AverageGoalsPerArenaCombiner.class);
 
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(StadiumGoalsWritable.class);
@@ -65,20 +66,39 @@ public class AverageGoalsPerArena extends Configured implements Tool {
 
 }
 
-class AvarageGoalsPerArenaMapper extends Mapper<LongWritable, Text, Text, StadiumGoalsWritable> {
+class AverageGoalsPerArenaMapper extends Mapper<LongWritable, Text, Text, StadiumGoalsWritable> {
   protected void map(LongWritable key, Text value, Context context) throws InterruptedException, IOException {
+
     String[] line = value.toString().split(",");
 
     String stadium = line[11];
     Integer homeGoals = Integer.parseInt(line[12]);
     Integer visitorGoals = Integer.parseInt(line[13]);
 
-    context.write(new Text(stadium), new StadiumGoalsWritable(homeGoals, visitorGoals));
+    context.write(new Text(stadium), new StadiumGoalsWritable(homeGoals, visitorGoals, 1));
 
   }
 }
 
-class AvarageGoalsPerArenaReducer extends Reducer<Text, StadiumGoalsWritable, Text, FloatWritable> {
+class AverageGoalsPerArenaCombiner extends Reducer<Text, StadiumGoalsWritable, Text, StadiumGoalsWritable> {
+  protected void reduce(Text key, Iterable<StadiumGoalsWritable> values, Context context)
+      throws IOException, InterruptedException {
+
+    Integer home = 0;
+    Integer visitor = 0;
+    Integer partial = 0;
+
+    for (StadiumGoalsWritable value : values) {
+      home += value.getHomeGoal();
+      visitor += value.getVisitorGoals();
+      partial += value.getPartial();
+    }
+
+    context.write(key, new StadiumGoalsWritable(home, visitor, partial));
+  }
+}
+
+class AverageGoalsPerArenaReducer extends Reducer<Text, StadiumGoalsWritable, Text, FloatWritable> {
   protected void reduce(Text key, Iterable<StadiumGoalsWritable> values, Context context)
       throws InterruptedException, IOException {
 
@@ -87,7 +107,7 @@ class AvarageGoalsPerArenaReducer extends Reducer<Text, StadiumGoalsWritable, Te
 
     for (StadiumGoalsWritable value : values) {
       total += value.getTotal();
-      occurances += 1;
+      occurances += value.getPartial();
     }
 
     context.write(key, new FloatWritable(total / occurances));
