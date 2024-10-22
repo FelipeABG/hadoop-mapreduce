@@ -6,16 +6,16 @@ import java.io.IOException;
 
 import org.apache.hadoop.io.Writable;
 
-public class StadiumGoalsWritable implements Writable {
+public class GoalsWritable implements Writable {
 
   private Integer homeGoals;
   private Integer visitorGoals;
   private Integer partial;
 
-  public StadiumGoalsWritable() {
+  public GoalsWritable() {
   }
 
-  public StadiumGoalsWritable(Integer home, Integer visitor, Integer n) {
+  public GoalsWritable(Integer home, Integer visitor, Integer n) {
     this.homeGoals = home;
     this.visitorGoals = visitor;
     this.partial = n;

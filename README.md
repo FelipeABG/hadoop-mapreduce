@@ -49,7 +49,11 @@ This job counts the total victories to home and visitor teams in the period.
 
 ### 5. Average Goals per Stadium (AverageGoalsPerArena.java)
 
-this job counts the avarage goals scored at each stadium in the period
+This job counts the avarage goals scored at each stadium in the period
+
+### 6. Coach rivalries (CoachRilvary.java)
+
+Given a pair of coachs that faced each other, this job counts the amount of wins of each coach in this dispute.
 
 ## Execution
 

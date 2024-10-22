@@ -17,7 +17,8 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-import pr.puc.mapreduce.medium.value.StadiumGoalsWritable;
+
+import pr.puc.mapreduce.medium.value.GoalsWritable;
 
 public class AverageGoalsPerArena extends Configured implements Tool {
   public static void main(String[] args) throws Exception {
@@ -49,7 +50,7 @@ public class AverageGoalsPerArena extends Configured implements Tool {
     job.setCombinerClass(AverageGoalsPerArenaCombiner.class);
 
     job.setMapOutputKeyClass(Text.class);
-    job.setMapOutputValueClass(StadiumGoalsWritable.class);
+    job.setMapOutputValueClass(GoalsWritable.class);
 
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(Text.class);
@@ -66,7 +67,7 @@ public class AverageGoalsPerArena extends Configured implements Tool {
 
 }
 
-class AverageGoalsPerArenaMapper extends Mapper<LongWritable, Text, Text, StadiumGoalsWritable> {
+class AverageGoalsPerArenaMapper extends Mapper<LongWritable, Text, Text, GoalsWritable> {
   protected void map(LongWritable key, Text value, Context context) throws InterruptedException, IOException {
 
     String[] line = value.toString().split(",");
@@ -75,37 +76,37 @@ class AverageGoalsPerArenaMapper extends Mapper<LongWritable, Text, Text, Stadiu
     Integer homeGoals = Integer.parseInt(line[12]);
     Integer visitorGoals = Integer.parseInt(line[13]);
 
-    context.write(new Text(stadium), new StadiumGoalsWritable(homeGoals, visitorGoals, 1));
+    context.write(new Text(stadium), new GoalsWritable(homeGoals, visitorGoals, 1));
 
   }
 }
 
-class AverageGoalsPerArenaCombiner extends Reducer<Text, StadiumGoalsWritable, Text, StadiumGoalsWritable> {
-  protected void reduce(Text key, Iterable<StadiumGoalsWritable> values, Context context)
+class AverageGoalsPerArenaCombiner extends Reducer<Text, GoalsWritable, Text, GoalsWritable> {
+  protected void reduce(Text key, Iterable<GoalsWritable> values, Context context)
       throws IOException, InterruptedException {
 
     Integer home = 0;
     Integer visitor = 0;
     Integer partial = 0;
 
-    for (StadiumGoalsWritable value : values) {
+    for (GoalsWritable value : values) {
       home += value.getHomeGoal();
       visitor += value.getVisitorGoals();
       partial += value.getPartial();
     }
 
-    context.write(key, new StadiumGoalsWritable(home, visitor, partial));
+    context.write(key, new GoalsWritable(home, visitor, partial));
   }
 }
 
-class AverageGoalsPerArenaReducer extends Reducer<Text, StadiumGoalsWritable, Text, FloatWritable> {
-  protected void reduce(Text key, Iterable<StadiumGoalsWritable> values, Context context)
+class AverageGoalsPerArenaReducer extends Reducer<Text, GoalsWritable, Text, FloatWritable> {
+  protected void reduce(Text key, Iterable<GoalsWritable> values, Context context)
       throws InterruptedException, IOException {
 
     Float occurances = 0f;
     Float total = 0f;
 
-    for (StadiumGoalsWritable value : values) {
+    for (GoalsWritable value : values) {
       total += value.getTotal();
       occurances += value.getPartial();
     }
