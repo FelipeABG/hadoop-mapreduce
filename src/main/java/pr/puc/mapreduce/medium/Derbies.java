@@ -48,6 +48,7 @@ public class Derbies extends Configured implements Tool {
     job.setJarByClass(Derbies.class);
     job.setMapperClass(DerbiesMapper.class);
     job.setReducerClass(DerbiesReducer.class);
+    job.setCombinerClass(DerbiesCombiner.class);
 
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(DerbyStatsWritable.class);
@@ -79,6 +80,23 @@ class DerbiesMapper extends Mapper<LongWritable, Text, Text, DerbyStatsWritable>
 
       context.write(new Text(homeState), new DerbyStatsWritable(homeGoals + visitorGoals, 1));
     }
+
+  }
+}
+
+class DerbiesCombiner extends Reducer<Text, DerbyStatsWritable, Text, DerbyStatsWritable> {
+  protected void reduce(Text key, Iterable<DerbyStatsWritable> values, Context context)
+      throws InterruptedException, IOException {
+
+    Integer totalGoals = 0;
+    Integer totalGames = 0;
+
+    for (DerbyStatsWritable value : values) {
+      totalGoals += value.getGoals();
+      totalGames += value.getGames();
+    }
+
+    context.write(key, new DerbyStatsWritable(totalGoals, totalGames));
 
   }
 }
