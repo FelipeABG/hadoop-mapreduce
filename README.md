@@ -59,6 +59,10 @@ Given a pair of coachs that faced each other, this job counts the amount of wins
 
 This job counts the amount of times that a pair of teams faced each other.
 
+### 8. Derbies Stats (Derbies.java)
+
+This job counts the amount of derby games of each state, the total amount of goals and the average goals per game.
+
 ## Execution
 
 To execute the jobs follow the steps:
