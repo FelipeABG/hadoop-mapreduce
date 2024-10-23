@@ -50,6 +50,7 @@ public class CoachsRivalry extends Configured implements Tool {
     job.setJarByClass(CoachsRivalry.class);
     job.setMapperClass(CoachsRivalryMapper.class);
     job.setReducerClass(CoachsRivalryReducer.class);
+    job.setCombinerClass(CoachsRivalrtCombiner.class);
 
     job.setMapOutputKeyClass(CoachsWritable.class);
     job.setMapOutputValueClass(CoachWinsWritable.class);
@@ -88,6 +89,23 @@ class CoachsRivalryMapper extends Mapper<LongWritable, Text, CoachsWritable, Coa
         context.write(new CoachsWritable(homeCoach, visitorCoach), new CoachWinsWritable(0, 1));
       }
     }
+
+  }
+}
+
+class CoachsRivalrtCombiner extends Reducer<CoachsWritable, CoachWinsWritable, CoachsWritable, CoachWinsWritable> {
+  protected void reduce(CoachsWritable key, Iterable<CoachWinsWritable> values, Context context)
+      throws InterruptedException, IOException {
+
+    Integer home = 0;
+    Integer visitor = 0;
+
+    for (CoachWinsWritable value : values) {
+      home += value.getHomeCoachWin();
+      visitor += value.getVisitorCoachWin();
+    }
+
+    context.write(key, new CoachWinsWritable(home, visitor));
 
   }
 }

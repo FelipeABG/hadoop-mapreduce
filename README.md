@@ -55,6 +55,10 @@ This job counts the avarage goals scored at each stadium in the period
 
 Given a pair of coachs that faced each other, this job counts the amount of wins of each coach in this dispute.
 
+### 7. Matchup frequency (Matchups.java)
+
+This job counts the amount of times that a pair of teams faced each other.
+
 ## Execution
 
 To execute the jobs follow the steps:
