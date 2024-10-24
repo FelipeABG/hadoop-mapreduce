@@ -94,4 +94,4 @@ Replace **complexity** with basic, medium, or advanced depending on the job's lo
 
 After the execution, a folder called _output_ will be available. Inside it you will find the result of the job.
 
-**OBS** the advanced jobs (under the advanced folder) will produce a _result_ folder, as it uses the output folder as intermediate step.
+**OBS**: the advanced jobs (under the advanced folder) will produce a _result_ folder, as it uses the _output_ folder as intermediate step.
