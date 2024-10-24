@@ -20,9 +20,12 @@ import org.apache.hadoop.util.ToolRunner;
 import pr.puc.mapreduce.advanced.value.TeamStatsIntermediateWritable;
 import pr.puc.mapreduce.advanced.value.TeamStatsWritable;
 
+//The goal of this job is to determine the goal balance and win rate of each team
 public class TeamStats extends Configured implements Tool {
 
   public static void main(String[] args) throws Exception {
+
+    // Executing the jobs
     Integer result = ToolRunner.run(new Configuration(), new TeamStats(), args);
     System.exit(result);
   }
@@ -30,59 +33,76 @@ public class TeamStats extends Configured implements Tool {
   @Override
   public int run(String[] arg0) throws Exception {
 
+    // Setting the input/output paths
     Path input = new Path("dataset-brasileirao.csv");
     Path output = new Path("output");
 
+    // Instantiatign job and config
     Configuration cfg = this.getConf();
     Job job = Job.getInstance(cfg);
 
+    // Deleting input folder if it exists
     FileSystem fs = FileSystem.get(cfg);
     fs.delete(output, true);
 
+    // Setting input/output file format
     FileInputFormat.setInputPaths(job, input);
     FileOutputFormat.setOutputPath(job, output);
 
+    // Setting input/output file type
     job.setInputFormatClass(TextInputFormat.class);
     job.setOutputFormatClass(TextOutputFormat.class);
 
+    // Setting job classes
     job.setJarByClass(TeamStats.class);
     job.setMapperClass(TeamStatsIntermediateMapper.class);
     job.setReducerClass(TeamStatsIntermediateReducer.class);
     job.setCombinerClass(TeamStatsIntermediateCombiner.class);
 
+    // Setting map output types
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(TeamStatsIntermediateWritable.class);
 
+    // Setting reduce output types
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(Text.class);
 
+    // Setting number of reducers
     job.setNumReduceTasks(1);
 
     if (job.waitForCompletion(true)) {
 
+      // Setting the input/output paths
       Path input2 = new Path("output/part-r-00000");
       Path output2 = new Path("result");
 
+      // Instantiatign job and deleting result folder
       Job job2 = Job.getInstance(cfg);
       fs.delete(output2, true);
 
+      // Setting input/output file format
       FileInputFormat.setInputPaths(job2, input2);
       FileOutputFormat.setOutputPath(job2, output2);
 
+      // Setting input/output file type
       job2.setInputFormatClass(TextInputFormat.class);
       job2.setOutputFormatClass(TextOutputFormat.class);
 
+      // Setting job classes
       job2.setJarByClass(TeamStats.class);
       job2.setMapperClass(TeamStatsMapper.class);
       job2.setReducerClass(TeamStatsReducer.class);
       job2.setCombinerClass(TeamStatsCombiner.class);
 
+      // Setting map output types
       job2.setMapOutputKeyClass(Text.class);
       job2.setMapOutputValueClass(TeamStatsWritable.class);
 
+      // Setting reduce output types
       job2.setOutputKeyClass(Text.class);
       job2.setOutputValueClass(Text.class);
 
+      // Setting number of reducers
       job2.setNumReduceTasks(1);
 
       return job2.waitForCompletion(true) ? 0 : 1;

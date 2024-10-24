@@ -67,6 +67,10 @@ This job counts the amount of derby games of each state, the total amount of goa
 
 This job determines more advanced team stats, such as win rate, win balance and total games played by the team.
 
+### 10. Champions of each year (Champions.java)
+
+This job determines the champion of each year by calculating points of each team.
+
 ## Execution
 
 To execute the jobs follow the steps:
