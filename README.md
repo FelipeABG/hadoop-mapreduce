@@ -63,6 +63,10 @@ This job counts the amount of times that a pair of teams faced each other.
 
 This job counts the amount of derby games of each state, the total amount of goals and the average goals per game.
 
+### 9. Team Stats (TeamStats.java)
+
+This job determines more advanced team stats, such as win rate, win balance and total games played by the team.
+
 ## Execution
 
 To execute the jobs follow the steps:
@@ -89,3 +93,5 @@ mvn exec:java -Dexec.mainClass=pr.puc.mapreduce.<complexity>.<JobClassName> -Dex
 Replace **complexity** with basic, medium, or advanced depending on the job's location, and **JobClassName** with the appropriate class name, such as WinsPerTeam, AverageGoals, GamesPerStadium, and so on.
 
 After the execution, a folder called _output_ will be available. Inside it you will find the result of the job.
+
+**OBS** the advanced jobs (under the advanced folder) will produce a _result_ folder, as it uses the output folder as intermediate step.
