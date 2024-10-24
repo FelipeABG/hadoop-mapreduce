@@ -23,6 +23,8 @@ import org.apache.hadoop.util.ToolRunner;
 public class HomeVisitorWins extends Configured implements Tool {
 
   public static void main(String[] args) throws Exception {
+
+    // Executing the job
     int res = ToolRunner.run(new Configuration(), new HomeVisitorWins(), args);
 
     System.exit(res);
@@ -31,31 +33,40 @@ public class HomeVisitorWins extends Configured implements Tool {
   @Override
   public int run(String[] arg0) throws Exception {
 
+    // Setting the input/output paths
     Path input = new Path("dataset-brasileirao.csv");
     Path output = new Path("output/");
 
+    // Instantiating cfg and job
     Configuration cfg = this.getConf();
     Job job = Job.getInstance(cfg);
 
+    // Deleting output folder if it exists
     FileSystem fs = FileSystem.get(cfg);
     fs.delete(output, true);
 
+    // Setting the input/output file format
     FileInputFormat.setInputPaths(job, input);
     FileOutputFormat.setOutputPath(job, output);
 
+    // Setting the input/output file types
     job.setInputFormatClass(TextInputFormat.class);
     job.setOutputFormatClass(TextOutputFormat.class);
 
+    // Setting the job classes
     job.setJarByClass(HomeVisitorWins.class);
     job.setMapperClass(HomeVisitorsWinsMapper.class);
     job.setReducerClass(HomeVisitorsWinsReducer.class);
 
+    // Setting the map output types
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(IntWritable.class);
 
+    // Setting the reduce output types
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(IntWritable.class);
 
+    // Setting the number of reducers
     job.setNumReduceTasks(1);
 
     if (job.waitForCompletion(true)) {

@@ -23,6 +23,7 @@ import org.apache.hadoop.util.ToolRunner;
 public class GamesPerStadium extends Configured implements Tool {
 
   public static void main(String[] args) throws Exception {
+    // Executing the job
     int res = ToolRunner.run(new Configuration(), new GamesPerStadium(), args);
 
     System.exit(res);
@@ -31,31 +32,40 @@ public class GamesPerStadium extends Configured implements Tool {
   @Override
   public int run(String[] arg0) throws Exception {
 
+    // Setting input/output paths
     Path input = new Path("dataset-brasileirao.csv");
     Path output = new Path("output/");
 
+    // Instantiating cfg and job
     Configuration cfg = this.getConf();
     Job job = Job.getInstance(cfg);
 
+    // Deleting the output folder if it exists
     FileSystem fs = FileSystem.get(cfg);
     fs.delete(output, true);
 
+    // Setting input/output file formats
     FileInputFormat.setInputPaths(job, input);
     FileOutputFormat.setOutputPath(job, output);
 
+    // Setting input/output file types
     job.setInputFormatClass(TextInputFormat.class);
     job.setOutputFormatClass(TextOutputFormat.class);
 
+    // Setting the job classes
     job.setJarByClass(GamesPerStadium.class);
     job.setMapperClass(GamesPerStadiumMapper.class);
     job.setReducerClass(GamesPerStadiumReducer.class);
 
+    // Setting map output types
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(IntWritable.class);
 
+    // Setting reduce output types
     job.setOutputValueClass(Text.class);
     job.setOutputKeyClass(IntWritable.class);
 
+    // Setting number of reducers
     job.setNumReduceTasks(1);
 
     if (job.waitForCompletion(true)) {

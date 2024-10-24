@@ -17,12 +17,15 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-
 import pr.puc.mapreduce.medium.value.DerbyStatsWritable;
 
+// The goal of this job is the determine the amount of derbies (teams of the same state playing against each other) 
+// per state, total goals that happend and the average goals per game 
 public class Derbies extends Configured implements Tool {
 
   public static void main(String[] args) throws Exception {
+
+    // Executing the job
     Integer result = ToolRunner.run(new Configuration(), new Derbies(), args);
     System.exit(result);
   }
@@ -30,32 +33,41 @@ public class Derbies extends Configured implements Tool {
   @Override
   public int run(String[] arg0) throws Exception {
 
+    // Setting the input/output paths
     Path input = new Path("dataset-brasileirao.csv");
     Path output = new Path("output");
 
+    // Instantiating cfg and job
     Configuration cfg = this.getConf();
     Job job = Job.getInstance(cfg);
 
+    // Deleting the output folder if it exists
     FileSystem fs = FileSystem.get(cfg);
     fs.delete(output, true);
 
+    // Setting the input/output file formats
     FileInputFormat.setInputPaths(job, input);
     FileOutputFormat.setOutputPath(job, output);
 
+    // Setting the input/output file types
     job.setInputFormatClass(TextInputFormat.class);
     job.setOutputFormatClass(TextOutputFormat.class);
 
+    // Setting the job classes
     job.setJarByClass(Derbies.class);
     job.setMapperClass(DerbiesMapper.class);
     job.setReducerClass(DerbiesReducer.class);
     job.setCombinerClass(DerbiesCombiner.class);
 
+    // Setting the map output types
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(DerbyStatsWritable.class);
 
+    // Setting the reduce output types
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(Text.class);
 
+    // Setting number of reducers
     job.setNumReduceTasks(1);
 
     if (job.waitForCompletion(true)) {

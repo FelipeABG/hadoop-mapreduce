@@ -24,6 +24,7 @@ import org.apache.hadoop.util.ToolRunner;
 public class AvarageGoals extends Configured implements Tool {
 
   public static void main(String[] args) throws Exception {
+    // Executes the Job
     int res = ToolRunner.run(new Configuration(), new AvarageGoals(), args);
     System.exit(res);
 
@@ -32,31 +33,40 @@ public class AvarageGoals extends Configured implements Tool {
   @Override
   public int run(String[] arg0) throws Exception {
 
+    // Input and output paths
     Path input = new Path("dataset-brasileirao.csv");
     Path output = new Path("output/");
 
+    // Instantiating cfg and job
     Configuration cfg = this.getConf();
     Job job = Job.getInstance(cfg);
 
+    // Deleting the output folder if it exists
     FileSystem fs = FileSystem.get(cfg);
     fs.delete(output, true);
 
+    // Setting the input and output file format
     FileInputFormat.setInputPaths(job, input);
     FileOutputFormat.setOutputPath(job, output);
 
+    // Setting the input/output type
     job.setInputFormatClass(TextInputFormat.class);
     job.setOutputFormatClass(TextOutputFormat.class);
 
+    // Setting The classes
     job.setJarByClass(AvarageGoals.class);
     job.setMapperClass(AvarageGoalsMapper.class);
     job.setReducerClass(AvarageGoalsReducer.class);
 
+    // Setting the map output types
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(IntWritable.class);
 
+    // Setting the reduce output types
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(FloatWritable.class);
 
+    // Setting the number or reducers
     job.setNumReduceTasks(1);
 
     if (job.waitForCompletion(true)) {

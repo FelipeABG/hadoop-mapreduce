@@ -20,9 +20,12 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import pr.puc.mapreduce.medium.key.TeamsWritable;
 
+// The goal of this job is to determine the amount of times that a pair of team faced each other
 public class Matchups extends Configured implements Tool {
 
   public static void main(String[] args) throws Exception {
+
+    // Executing the job
     Integer result = ToolRunner.run(new Configuration(), new Matchups(), args);
     System.exit(result);
   }
@@ -30,32 +33,41 @@ public class Matchups extends Configured implements Tool {
   @Override
   public int run(String[] arg0) throws Exception {
 
+    // Setting the input/output file paths
     Path input = new Path("dataset-brasileirao.csv");
     Path output = new Path("output");
 
+    // Instantiating cfg and job
     Configuration cfg = this.getConf();
     Job job = Job.getInstance(cfg);
 
+    // Deleting the output folder if it exists
     FileSystem fs = FileSystem.get(cfg);
     fs.delete(output, true);
 
+    // Setting the input/output file formats
     FileInputFormat.setInputPaths(job, input);
     FileOutputFormat.setOutputPath(job, output);
 
+    // Setting the input/output file types
     job.setInputFormatClass(TextInputFormat.class);
     job.setOutputFormatClass(TextOutputFormat.class);
 
+    // Setting job classes
     job.setJarByClass(Matchups.class);
     job.setMapperClass(MatchupsMapper.class);
     job.setReducerClass(MatchupsReducer.class);
     job.setCombinerClass(MatchupsCombiner.class);
 
+    // Setting map output types
     job.setMapOutputKeyClass(TeamsWritable.class);
     job.setMapOutputValueClass(IntWritable.class);
 
+    // Setting reduce output types
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(IntWritable.class);
 
+    // Setting the number of reducers
     job.setNumReduceTasks(1);
 
     if (job.waitForCompletion(true)) {
